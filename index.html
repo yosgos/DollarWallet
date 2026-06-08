@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <link rel="icon" sizes="192x192" href="Images%20(1).jpeg">
@@ -450,7 +450,7 @@
             }, 800);
         }
 
-        // פונקציית ייצוא הנתונים ל-CSV החדשה
+        // פונקציית ייצוא הנתונים ל-CSV - מעודכנת עם חודש במילים
         function exportTransactionsToCSV() {
             if (!transactions || transactions.length === 0) {
                 alert("No transactions found to export!");
@@ -463,8 +463,9 @@
 
             // מיפוי הנתונים לשורות
             for (const tx of transactions) {
-                // המרת תאריך לפורמט קריא
-                const formattedDate = new Date(tx.date).toLocaleDateString('en-US');
+                // המרת תאריך לפורמט קריא עם שם החודש במילים (לדוגמה: May 3, 2026)
+                const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+                const formattedDate = new Date(tx.date).toLocaleDateString('en-US', dateOptions);
                 
                 // מציאת שם התיקייה לפי ה-ID שלה
                 const pocket = pockets.find(p => p.id === tx.pocketId);
@@ -477,7 +478,7 @@
                 }
 
                 const rowValues = [
-                    formattedDate,
+                    `"${formattedDate}"`, // מוקף במרכאות כי הפורמט מכיל פסיק פנימי
                     tx.type.toUpperCase(),
                     tx.amount,
                     `"${pocketName.replace(/"/g, '""')}"`, // הגנה על שם התיקייה במקרה של פסיקים
